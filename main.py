@@ -1,3 +1,4 @@
+import os
 from typing import Tuple
 import torch
 import logging
@@ -26,12 +27,16 @@ parser.add_argument('--early_stop',type=int, default=10, help='Early Stop Epoch'
 
 parser.add_argument('--bert', type=str, required=True, help='Choose Bert')
 parser.add_argument('--dropout', type=float, default=0.4, help='dropout ratio')
+parser.add_argument("--save_path", default='./output', type=str,
+                        help="The path of result data and models to be saved.")
 
 args = parser.parse_args()
 
 TIMESTAMP = time.strftime("%Y-%m-%d_%H:%M", time.localtime())
+SAVE_PATH =  os.path.join(args.save_path, args.model_name,
+                                      f'{TIMESTAMP}_{args.batch}_{args.dropout}_{args.learning_rate}')
 
-config_logging("log_" + TIMESTAMP)
+config_logging(SAVE_PATH)
 logging.info('Log is ready!')
 logging.info(args)
 
@@ -74,6 +79,7 @@ def train():
         if metric > best_metric:
             logging.info(f'evaluation result:{metric}')
             trainer.save()
+            logging.info(f'state dict saved to {SAVE_PATH}')
         else:
             metric_not_update += 1
             if metric_not_update >= args.early_stop:

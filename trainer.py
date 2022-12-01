@@ -81,3 +81,7 @@ class Trainer():
         metrics = metric(all_preds, all_labels)
         return metrics
 
+    def save_model(self, save_path):
+        torch.save(self.model.state_dict(), save_path)
+        
+

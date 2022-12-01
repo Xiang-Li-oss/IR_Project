@@ -1,8 +1,10 @@
 import logging
 import sys
+import os
 
-def config_logging(file_name):
-    file_handler = logging.FileHandler(file_name, mode='a', encoding="utf8")
+def config_logging(dir_name):
+    log_file = os.path.join(dir_name, 'log')
+    file_handler = logging.FileHandler(log_file, mode='a', encoding="utf8")
     file_handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(module)s.%(lineno)d %(message)s',datefmt="%Y/%m/%d %H:%M:%S"))
     # file_handler.setLevel(file_level)
 
