@@ -5,17 +5,15 @@ from torch.utils.data import DataLoader
 import tqdm
 
 
-class trainer():
+class Trainer():
 
     def __init__(self,args, model, metric) -> None:
         self.model:BertClassifier = model
         self.cuda = args.cuda
         self.threshold = args.threshold
         
-         
 
-
-    def train(self, args, optimizer:Optimizer, train_loader:DataLoader, scheduler, criterion, epoch):
+    def train(self, train_loader:DataLoader, optimizer:Optimizer, scheduler, criterion):
         tqdm_loader = tqdm.tqdm(train_loader)
         model = self.model
         model.train()
@@ -51,7 +49,7 @@ class trainer():
         return total_loss / len(tqdm_loader), 
 
 
-    def eval(self, args, eval_loader, metric):
+    def eval(self, eval_loader, metric):
         tqdm_loader = tqdm(eval_loader)
         model = self.model
         model.eval()
@@ -82,7 +80,4 @@ class trainer():
 
         metrics = metric(all_preds, all_labels)
         return metrics
-
-
-
 
