@@ -1,9 +1,11 @@
 import logging
 import sys
 import os
+from pathlib import Path
 
 def config_logging(dir_name):
-    log_file = os.path.join(dir_name, 'log')
+    Path(dir_name).mkdir(parents=True, exist_ok=True)
+    log_file = os.path.join(dir_name, 'log.txt')
     file_handler = logging.FileHandler(log_file, mode='a', encoding="utf8")
     file_handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(module)s.%(lineno)d %(message)s',datefmt="%Y/%m/%d %H:%M:%S"))
     # file_handler.setLevel(file_level)

@@ -28,8 +28,8 @@ class BertClassifier(nn.Module):
         self.linear = nn.Linear(dim, 1)
         self.sigmoid = nn.Sigmoid()
 
-    def forward(self, input_id, token_type_ids, mask) -> torch.Tensor:
-        output = self.bert(input_ids= input_id, token_type_ids=token_type_ids, attention_mask=mask)
+    def forward(self, input_id, mask) -> torch.Tensor:
+        output = self.bert(input_ids= input_id, attention_mask=mask)
         pooler_output = output['pooler_output'] #Only Embedding for [CLS] is required in classification
         dropout_output = self.dropout(pooler_output)
         linear_output: torch.Tensor = self.linear(dropout_output) #[B, 1]
